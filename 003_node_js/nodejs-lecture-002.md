@@ -1,10 +1,10 @@
 # Project 0
 
-`Notes By : Milind Mishra`
+Notes by : [Milind Mishra](https://milind.bio.link/)
 
 ## Module Pattern
 
-### Header Notes
+### Header Notes 
 
 - Syntax like `module.exports = { }` is used to export the module. This is called module pattern.
 - Other syntaxes like import {useEffect} from 'react' are also used to export the module which are a part of ES6 Modules syntax.
