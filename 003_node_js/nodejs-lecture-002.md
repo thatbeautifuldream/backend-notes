@@ -1,4 +1,4 @@
-# Project 0 | Lexture Notes
+# Project 0 | Lecture Notes
 
 Notes by : [Milind Mishra](https://bento.me/milindmishra/)
 
@@ -138,4 +138,174 @@ console.log(binarySearch([1, 2, 3, 4, 5], 3)); // 2
 ```
 
 - This is how we are able to get the functions defined in another file and use them in our file.
+- Benifits of destructuring :
+  - We can import only the functions that we need.
+  - We can import the functions with different names.
+- Destructuring is essentially unpacking the object and assigning the properties to the variables.
+- In the above example, we are unpacking the object and assigning the properties to the variables `linearSearch` and `binarySearch`.
+
+- The require function accepts both absolute and relative paths.
+- Absolute path : The path of the file from the root of the project.
+- Relative path : The path of the file from the current file.
+
+> NOTE : In order to use ES6 Modules Syntax in Node JS, we need to add `"type": "module"` in the package.json file. Then the whole application will be converted to ESM. You can only use one kind of module system in a project. You cannot mix both the module systems.
+
+- Alias in require imports, we can use alias to import the module.
+
+```js
+const  { linearSearch : ls, binarySearch: bs } = require('./searching');
+```
+
+- In the above example, we are importing the functions with different names. This is useful when we have a lot of imports in a file. We can use alias to make the code more readable.
+
+### Example using more algorithms packed in `sorting.js`
+
+```js
+// Bubble Sort
+const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+// Selection Sort
+const selectionSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[min]) {
+        min = j;
+      }
+    }
+    let temp = arr[i];
+    arr[i] = arr[min];
+    arr[min] = temp;
+  }
+  return arr;
+};
+
+// Insertion Sort
+const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+
+// Exporting the module in Common JS Syntax
+// another way to export the module
+module.exports.bubbleSort = bubbleSort;
+module.exports.selectionSort = selectionSort;
+module.exports.insertionSort = insertionSort;
+
+// also another intresting export pattern people do is using a IIFE (Immediately Invoked Function Expression)
+module.exports.quickSort  = (function () {
+  const quickSort = (arr) => {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    let pivot = arr[arr.length - 1];
+    let left = [];
+    let right = [];
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i] < pivot) {
+        left.push(arr[i]);
+      } else {
+        right.push(arr[i]);
+      }
+    }
+    return [...quickSort(left), pivot, ...quickSort(right)];
+  };
+  return quickSort;
+})();
+
+// rather a normal function as well
+module.exports.mergeSort = function mergeSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+  let mid = Math.floor(arr.length / 2);
+  let left = mergeSort(arr.slice(0, mid));
+  let right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+};
+
+```
+
+- In the above example, we have exported the module in a different way. We can export the module in any way we want.
+
+> Same drill to use them in `index.js` file.
+
+```js
+const { bubbleSort, selectionSort, insertionSort, quickSort, mergeSort } = require('./sorting');
+
+console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(selectionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(insertionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(quickSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(mergeSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+- Lets say we dont want to export the messy object but rather just a function that can be used to sort the array. We can do that by using a function that returns the object.
+
+```js
+// sorting.js
+const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+// Here we are exporting a function out of the module, now the export global becomes a function instead of an object.
+module.exports = bubbleSort;
+// these kind of export is called default export or a named export
+// more common in ESM 
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+const bubbleSort = require('./sorting');
+
+// use it as a function
+console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+- We may export anything that we may require in the future. We can export a function, a class, an object, a string, a number, an array, a boolean, etc.
+
+> Note : We cannot technically have multiple default exports in a module. But we can have multiple named exports in a module.
+
+## ES6 Modules
+
+- Converting the Common JS Syntax to ES6 Modules Syntax.
+- We need to add `"type": "module"` in the `package.json` file. Then the whole application will be converted to ESM. You can only use one kind of module system in a project. You cannot mix both the module systems.
+
+### There are two ways to convert the Common JS Syntax to ES6 Modules Syntax
+
+- By default Node.js will treat following as Common JS Syntax.
+  - Files with `.cjs` extension.
+  - Files with `.js` extension if the `package.json` file does not have `"type": "module"` or nearest parent `package.json` file has `"type": "commonjs"`.
+  - Files with extension that is not `.mjs` or `.cjs` or `.js` or `.json` or `.node`. (when nearest parent `package.json` file contains a top level field `"type"` with a value of `"module"`. Those files are recognised as Common JS Syntax included via `require()`. not when used as command line entry point of the program.)
+
+> Calling `require()` always uses the Common JS module loader. Calling the `import()` keyword always uses the ES6 module loader.
 
