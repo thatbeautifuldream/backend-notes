@@ -1,10 +1,10 @@
-# Project 0
+# Project 0 | Lexture Notes
 
-Notes by : [Milind Mishra](https://milind.bio.link/)
+Notes by : [Milind Mishra](https://bento.me/milindmishra/)
 
 ## Module Pattern
 
-### Header Notes 
+### Header Notes for Module Pattern
 
 - Syntax like `module.exports = { }` is used to export the module. This is called module pattern.
 - Other syntaxes like import {useEffect} from 'react' are also used to export the module which are a part of ES6 Modules syntax.
@@ -54,4 +54,88 @@ import App from './App';
 - Since React uses ESM we can import the module in two ways:
   - `import React from 'react'` : This is used to import the module as default.
   - `import {useEffect} from 'react'` : This is used to import the module as named export.
+
+### DRY Principle (Don't Repeat Yourself)
+
+- DRY Principle stands for Don't Repeat Yourself.
+- In programming, we should not repeat the code. We should write the code once and use it multiple times. This is called DRY Principle.
+- Technically we write functions and use them multiple times. This is how we follow the DRY Principle.
+- If something can be repeated, it should be written as a function and used multiple times.
+- We can segregate the code into different files and use them in other files.
+
+### Example of Module Pattern
+
+- Lets make a `searching.js` file that contains the implementation of Linear Search and Binary Search.
+
+```js
+// Linear Search
+const linearSearch = (arr, x) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === x) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+// Binary Search assuming array is sorted
+const binarySearch = (arr, x) => {
+  let start = 0;
+  let end = arr.length - 1;
+  while (start <= end) {
+    let mid = Math.floor((start + end) / 2);
+    if (arr[mid] === x) {
+      return mid;
+    } else if (arr[mid] < x) {
+      start = mid + 1;
+    } else {
+      end = mid - 1;
+    }
+  }
+  return -1;
+};
+
+// Exporting the module in Common JS Syntax
+module.exports = {
+  linearSearch: linearSearch,
+  binarySearch: binarySearch
+};
+
+// shorthand syntax when thw key value pair is same
+module.exports = {linearSearch, binarySearch};
+
+// named export in Common JS Syntax
+module.exports = {linear : linearSearch, binary : binarySearch};
+
+// In ES6 Modules Syntax
+export default {linearSearch, binarySearch};
+```
+
+> There exists a global object called `module` in Node JS. This object contains a property called `exports` which is an object. We can add properties to this object and export them. This is how we export the module in Common JS Syntax.
+
+- Inorder to use this module in another file, we can import it using the following syntax:
+- Using it in the file lets say `index.js` in the same level.
+
+> The global require function is used to import the module in Node JS. This function takes the path of the module as an argument and returns the module.
+
+```js
+// Importing the module in Common JS Syntax
+const searchingFunctions = require('./searching');
+
+console.log(searchingFunctions); // { linearSearch: [Function: linearSearch], binarySearch: [Function: binarySearch] }
+
+// in order to use the functions we need to access them using the dot notation
+console.log(searchingFunctions.linearSearch([1, 2, 3, 4, 5], 3)); // 2
+console.log(searchingFunctions.binarySearch([1, 2, 3, 4, 5], 3)); // 2
+
+const {linearSearch, binarySearch} = require('./searching'); // using object destructuring
+
+// In ES6 Modules Syntax
+// import {linearSearch, binarySearch} from './searching';
+
+console.log(linearSearch([1, 2, 3, 4, 5], 3)); // 2
+console.log(binarySearch([1, 2, 3, 4, 5], 3)); // 2
+```
+
+- This is how we are able to get the functions defined in another file and use them in our file.
 
