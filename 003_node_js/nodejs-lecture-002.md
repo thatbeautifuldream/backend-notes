@@ -696,3 +696,62 @@ npm install <package-name>
 - This will install the package in the `node_modules` folder. The `node_modules` folder is created in the current working directory. So, if you are in the root directory of your project then the `node_modules` folder will be created in the root directory of your project. If you are in a subdirectory of your project then the `node_modules` folder will be created in the subdirectory of your project.
 - There also spawns up two more files named package.json and package-lock.json. The package.json file contains the information about the package (meta data for you project). The package-lock.json file contains the information about the dependencies of the package. So, if the package has a dependency to other packages then the information about those packages will be stored in the package-lock.json file. All internal dependency information is stored in the package-lock.json file. For most cases, we don't need to worry about the package-lock.json file. We can just ignore it.
 - Now you may see that the *node_modules* folder quite quickly becomes quite big. So, we don't want to push the node_modules folder to the remote repository. So, we need to add the node_modules folder to the .gitignore file. So, that the node_modules folder is not pushed to the remote repository.
+- Concept of ~ and ^ in package.json
+
+```json
+{
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "moment": "~2.29.1"
+  }
+}
+```
+
+- The `^` symbol means that the package can be updated to the latest version of the package. So, if the current version of the package is 4.17.20 then the package can be updated to the latest version of the package. So, if the latest version of the package is 4.17.21 then the package will be updated to 4.17.21. But, if the latest version of the package is 5.0.0 then the package will not be updated to 5.0.0. It will remain at 4.17.20.
+- The `~` symbol means that the package can be updated to the latest patch version of the package. So, if the current version of the package is 2.29.1 then the package can be updated to the latest patch version of the package. So, if the latest patch version of the package is 2.29.2 then the package will be updated to 2.29.2. But, if the latest patch version of the package is 2.30.0 then the package will not be updated to 2.30.0. It will remain at 2.29.1.
+
+### Developing your own `package.json` by initializing a project
+
+```bash
+npm init
+```
+
+- This will create a package.json file in the current working directory. This will also ask you some questions about your project. You can just press enter to accept the default values. You can also change the values as per your requirements. This will create a package.json file in the current working directory. This will also ask you some questions about your project. You can just press enter to accept the default values. You can also change the values as per your requirements. You can passa `-y` flag to accept all the default values.
+
+- A regular package.json file looks like this
+
+```json
+{
+  "name": "nodejs-course",
+  "version": "1.0.0",
+  "description": "Node.js course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Milind Mishra",
+  "license": "MIT"
+}
+```
+
+- This looks like plan js but is in form of a big object so this types of files we call as `json` file. Where `json` stands for *javascript object notation*.
+
+### Significance of the fields in `package.json`
+
+- The `name` field is the name of the package. This is the name that will be used to install the package. So, if we want to install the package then we will use the name of the package. So, if the name of the package is `nodejs-course` then we will use `npm install nodejs-course` to install the package.
+- The `version` field is the version of the package. This is the version that will be used to install the package. So, if we want to install the package then we will use the version of the package. So, if the version of the package is `1.0.0` then we will use `npm install
+- The `description` field is the description of the package. This is the description that will be used to install the package. So, if we want to install the package then we will use the description of the package. So, if the description of the package is `Node.js course` then we will use `npm install
+- The `main` field is the entry point of the package. This is the entry point that will be used to install the package. So, if we want to install the package then we will use the entry point of the package. So, if the entry point of the package is `index.js` then we will use `npm install
+- The `scripts` field is the scripts of the package. This is the scripts that will be used to install the package. So, if we want to install the package then we will use the scripts of the package. So, if the scripts of the package is `test` then we will use `npm install
+- The `keywords` field is the keywords of the package. This is the keywords that will be used to install the package. So, if we want to install the package then we will use the keywords of the package. So, if the keywords of the package is `nodejs` then we will use `npm install
+- The `author` field is the author of the package. This is the author that will be used to install the package. So, if we want to install the package then we will use the author of the package. So, if the author of the package is `Milind Mishra` then we will use `npm install
+- The `license` field is the license of the package. This is the license that will be used to install the package. So, if we want to install the package then we will use the license of the package. So, if the license of the package is `MIT` then we will use `npm install
+
+> Subsequently now when we keep installing packages we will see that the package.json file keeps getting updated with the new packages that we install. There can be two type of installation for these dependencies, one is normal another is dev dependencies. The dev dependencies are used for development purpose and the normal dependencies are used for production purpose. So, the dev dependencies are not required for production purpose. So, we can remove the dev dependencies from the package.json file before pushing the code to the remote repository. So, that the remote repository does not contain the dev dependencies. We can remove the dev dependencies from the package.json file by using the `--production` flag. So, if we want to install the package then we will use `npm install --production` to install the package nessasary for production purpose.
+
+- One small gotcha is that another kind of npm package installation is global install and local install. So, if we want to install the package then we will use `npm install -g` to install the package globally. So, if we want to install the package then we will use `npm install` to install the package locally.
+- The global install gets installed in the global node_modules folder. And we may use it in any place in our system. But, the local install gets installed in the local node_modules folder. And we may use it only in the current project.
