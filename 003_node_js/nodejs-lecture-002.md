@@ -760,4 +760,4 @@ npm init
 
 - Package name `telegraf` : helps to prepare telegram bots easily using telegraf.js library.
 
-- All the working code is available at [Telegram Bot](https://gh.milind.live)
+- All the working code with explainer comments is available at [Telegram Bot](https://github.com/thatbeautifuldream/telegram_bot)
