@@ -560,3 +560,139 @@ import { Person } from './person';
 const person = new Person('John', 25);
 person.sayHi(); // Hi, I am John and I am 25 years old.
 ```
+
+- A default export is a fallback export, if you are not able to find a named export with the same name as the default export, then it will fallback to the default export.
+
+### Alias for named export.
+
+- Alias is a name that we give to a variable, function, class, etc. to make it more readable.
+
+```js<div style="font-size: 9px; margin-left: 1cm;"> <span class='title'></span></div> <div style="font-size: 9px; margin-left: auto; margin-right: 1cm; "> <span class='date'></span></div>
+// sorting.js
+export const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+export const selectionSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[min]) {
+        min = j;
+      }
+    }
+    let temp = arr[i];
+    arr[i] = arr[min];
+    arr[min] = temp;
+  }
+  return arr;
+};
+
+export const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+
+export { bubbleSort as bs, selectionSort as ss, insertionSort as is };
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import { bs, ss, is } from './sorting';
+
+// import everything alias
+import * as sorting from './sorting';
+// brings all the named exports as an object into sorting, basically syntactical sugar for the above line
+// using the object
+console.log(sorting.bs([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(sorting.ss([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(sorting.is([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+> Side Note : EJS (Embeedded JavaScript) not to be confused with ESM, EJS is a templating engine for Node.js. There exists lots of templating engines for other languages for example for ruby, we have ERB, for python we have Jinja2, for PHP we have Blade, for C# we have Razor, for Java we have JSP. These templating engines allow us to write dynamic HTML pages in our server side code. Templating Engines basically provide you a way to write your preffered language inside HTML. For example, if you are using EJS, then you can write your JavaScript inside HTML. EJS is a very popular templating engine for Node.js. Not to be confused with React Js which is a JavaScript library for building user interfaces, which is essentially a frontend library used to efficiently manupilate DOM.
+
+- *Alias with default export is not possible.* Because default export is a fallback export, if you are not able to find a named export with the same name as the default export, then it will fallback to the default export. So, if we give an alias to the default export, then it will not fallback to the default export.
+
+- Note : if a module spits a default export along with other named exports the import order must be like this.
+
+```js
+import defaultExport, { namedExport1, namedExport2 } from './module';
+```
+
+- If we import the module like this
+
+```js
+import { namedExport1, namedExport2, defaultExport } from './module';
+```
+
+- Then it will throw an error.
+
+> NOTE : The default export is already a single export so there is no point keeping it as an alias.
+
+- Sure you can alias all the named exports as per your need.
+
+```js
+import defaultExport, { namedExport1 as ne1, namedExport2 as ne2 } from './module';
+```
+
+### Using modules written by other people.
+
+- So like we studied till now how to make modules. Likewise we can also use modules written by other people. For example, we can use the modules written by the Node.js core team.
+
+> For example, we can use the `fs` module to read and write files. We can use the `http` module to create a server. We can use the `path` module to manipulate paths. We can use the `os` module to get information about the operating system. We can use the `crypto` module to encrypt and decrypt data. We can use the `events` module to create and emit events. We can use the `util` module to get some utility functions. We can use the `stream` module to create streams. We can use the `querystring` module to parse query strings. We can use the `url` module to parse URLs. We can use the `assert` module to make assertions. We can use the `buffer` module to create and manipulate buffers. We can use the `child_process` module to spawn child processes. We can use the `cluster` module to create clusters. We can use the `dns` module to resolve DNS names. We can use the `net` module to create servers and clients. We can use the `readline` module to read from the console. We can use the `string_decoder` module to decode buffers. We can use the `timers` module to create timers. We can use the `tty` module to create TTY streams. We can use the `v8` module to get information about the V8 engine. We can use the `vm` module to create virtual machines. We can use the `zlib` module to compress and decompress data. We can use the `worker_threads` module to create worker threads. We can use the `dgram` module to create UDP servers and clients. We can use the `perf_hooks` module to get information about the performance of the application. We can use the `http2` module to create HTTP/2 servers and clients. We can use the `https` module to create HTTPS servers and clients. We can use the `punycode` module to convert Unicode characters to Punycode. We can use the `repl` module to create a REPL environment. We can use the `tls` module to create TLS servers and clients. We can use the `fs/promises` module to read and write files using promises. We can use the `stream/promises`.
+
+- So, we can use these modules in our code. For example, we can use the `fs` module to read and write files.
+
+```js
+import fs from 'fs';
+
+fs.readFile('./text-file.txt', (err, data) => {
+  if (err) return console.log('Error');
+  console.log(data);
+});
+```
+
+- The website npm exists to share modules written by other people. So, we can use the modules written by other people in our code.
+- Now the one thing to note is other packages might have dependencies to other packages. So, we need to install those dependencies as well. For example, the `fs` module has a dependency to the `path` module. So, we need to install the `path` module as well.
+
+```js
+import fs from 'fs';
+import path from 'path';
+
+fs.readFile(path.resolve(__dirname, 'text-file.txt'), (err, data) => {
+  if (err) return console.log('Error');
+  console.log(data);
+});
+```
+
+- Simmilarly when people create thier package using these other dependencies the dependencies array gets filled.
+
+> When you install some A package it automagically installs B package as well. So, we don't need to install B package manually. But, if we want to use B package in our code we need to import it. So there exists something knows as topological sorting which is used to install the dependencies in the correct order. So, if A package has a dependency to B package and B package has a dependency to C package then the order of installation is C, B, A. So, the dependencies are installed in the correct order.
+
+### Installing a package
+
+```bash
+npm install <package-name>
+```
+
+- This will install the package in the `node_modules` folder. The `node_modules` folder is created in the current working directory. So, if you are in the root directory of your project then the `node_modules` folder will be created in the root directory of your project. If you are in a subdirectory of your project then the `node_modules` folder will be created in the subdirectory of your project.
+- There also spawns up two more files named package.json and package-lock.json. The package.json file contains the information about the package (meta data for you project). The package-lock.json file contains the information about the dependencies of the package. So, if the package has a dependency to other packages then the information about those packages will be stored in the package-lock.json file. All internal dependency information is stored in the package-lock.json file. For most cases, we don't need to worry about the package-lock.json file. We can just ignore it.
+- Now you may see that the *node_modules* folder quite quickly becomes quite big. So, we don't want to push the node_modules folder to the remote repository. So, we need to add the node_modules folder to the .gitignore file. So, that the node_modules folder is not pushed to the remote repository.
