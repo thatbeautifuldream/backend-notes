@@ -755,3 +755,9 @@ npm init
 
 - One small gotcha is that another kind of npm package installation is global install and local install. So, if we want to install the package then we will use `npm install -g` to install the package globally. So, if we want to install the package then we will use `npm install` to install the package locally.
 - The global install gets installed in the global node_modules folder. And we may use it in any place in our system. But, the local install gets installed in the local node_modules folder. And we may use it only in the current project.
+
+## Project 0
+
+- Package name `telegraf` : helps to prepare telegram bots easily using telegraf.js library.
+
+- All the working code is available at [Telegram Bot](https://gh.milind.live)
