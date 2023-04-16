@@ -305,7 +305,258 @@ console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
 - By default Node.js will treat following as Common JS Syntax.
   - Files with `.cjs` extension.
   - Files with `.js` extension if the `package.json` file does not have `"type": "module"` or nearest parent `package.json` file has `"type": "commonjs"`.
-  - Files with extension that is not `.mjs` or `.cjs` or `.js` or `.json` or `.node`. (when nearest parent `package.json` file contains a top level field `"type"` with a value of `"module"`. Those files are recognised as Common JS Syntax included via `require()`. not when used as command line entry point of the program.)
+  - Files with extension that is *not* `.mjs` or `.cjs` or `.js` or `.json` or `.node`. (when nearest parent `package.json` file contains a top level field `"type"` with a value of `"module"`. Those files are recognised as Common JS Syntax included via `require()`. not when used as command line entry point of the program.)
 
 > Calling `require()` always uses the Common JS module loader. Calling the `import()` keyword always uses the ES6 module loader.
 
+- Package.json
+
+```json
+{
+  type: "module"
+}
+```
+
+- On using require in .mjs file will throw an error.
+
+```js
+// index.mjs
+require('./sorting'); // throws an error
+```
+
+- Error : `SyntaxError: Cannot use import statement outside a module`
+
+- On using import in .js file will throw an error.
+
+```js
+// index.js
+import bubbleSort from './sorting'; // throws an error
+```
+
+- Error : `SyntaxError: Cannot use import statement outside a module`
+
+- On using import in .cjs file will throw an error.
+
+```js
+// index.cjs
+import bubbleSort from './sorting'; // throws an error
+```
+
+- Error : `SyntaxError: Cannot use import statement outside a module`
+
+- A common gotcha, that if you use module.exports you need to import them as .js files otherwise js does not find them,
+
+### Default exports and Named exports in ESM
+
+- Default exports and Named exports are the same as in Common JS Syntax.
+
+```js
+// sorting.js
+const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+// Here we are exporting a function out of the module, now the export global becomes a function instead of an object.
+export default bubbleSort;
+// these kind of export is called default export or a named export
+// more common in ESM 
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import bubbleSort from './sorting';
+
+// use it as a function
+console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+- We can also export multiple things from a module.
+
+```js
+// sorting.js
+const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+const selectionSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[min]) {
+        min = j;
+      }
+    }
+    let temp = arr[i];
+    arr[i] = arr[min];
+    arr[min] = temp;
+  }
+  return arr;
+};
+
+const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+
+
+// Here we are exporting a function out of the module, now the export global becomes a function instead of an object.
+export default bubbleSort;
+export { selectionSort, insertionSort };
+// these kind of export is called default export or a named export
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import bubbleSort, { selectionSort, insertionSort } from './sorting';
+
+// use it as a function
+console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(selectionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(insertionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+- We may export anything that we may require in the future. We can export a function, a class, an object, a string, a number, an array, a boolean, etc.
+
+> NOTE :  When you have a default export you can technically access it without destructuring it, just like in the above sinppet the `bubbleSort` function is exported as a default export, so we can access it without destructuring it, while rest of the two named exports are destructured and accessed.
+
+- We can also export a function as a named export.
+
+```js
+// sorting.js
+export const bubbleSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+};
+
+export const selectionSort = (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[min]) {
+        min = j;
+      }
+    }
+    let temp = arr[i];
+    arr[i] = arr[min];
+    arr[min] = temp;
+  }
+  return arr;
+};
+
+export const insertionSort = (arr) => {
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = current;
+  }
+  return arr;
+};
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import { bubbleSort, selectionSort, insertionSort } from './sorting';
+
+// use it as a function
+console.log(bubbleSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(selectionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+console.log(insertionSort([5, 4, 3, 2, 1])); // [ 1, 2, 3, 4, 5 ]
+```
+
+- If you may need to export in object fashion like selectionSort, insertionSort and rest you may use the named export and if you may need to export only one function like bubbleSort you may use the default export. Note, that there can be only one default export in a module.
+
+- Module is a jargon for a file in JS. So, we can say that a module is a file in JS.
+
+- We can also export a class.
+
+```js
+// lets say we make a class for a person
+
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  sayHi() {
+    console.log(`Hi, I am ${this.name} and I am ${this.age} years old.`);
+  }
+}
+
+export default Person;
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import Person from './person';
+
+const person = new Person('John', 25);
+person.sayHi(); // Hi, I am John and I am 25 years old.
+```
+
+- We can also export a class as a named export.
+
+```js
+// class for a person
+export class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  sayHi() {
+    console.log(`Hi, I am ${this.name} and I am ${this.age} years old.`);
+  }
+}
+```
+
+- Simmilarly using it in `index.js`
+
+```js
+import { Person } from './person';
+
+const person = new Person('John', 25);
+person.sayHi(); // Hi, I am John and I am 25 years old.
+```
