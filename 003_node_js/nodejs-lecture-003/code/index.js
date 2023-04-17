@@ -50,3 +50,6 @@ In order to understand that we can study streams in nodejs as a concept
 Stream is an abstract interface for working with streaming data in Node.js.
 The node:stream module provides a base API that makes it easy to build objects that implement the stream interface.
 */
+
+
+// TIMESTAMP: 00:53:30
