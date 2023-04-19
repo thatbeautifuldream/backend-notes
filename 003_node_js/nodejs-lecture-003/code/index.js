@@ -38,18 +38,3 @@ console.log("AFTER ->", contents); // prints the contents of the file with the d
 await writeFile(new URL("./devIndex.html", import.meta.url), contents);
 
 // this is how templating works and now you might have a idea how react works under the hood essentially it is a templating engine
-
-// so when there is humongous inflow of data you just cant read the whole mamoth file and then replace the values and then write it back to the file
-// so we use streams to do this efficiently where we distribute it into small chunks of data and then process it and then write it back to the file
-// read it chunk by chunk and write it chunk by chunk
-
-/*
-So like when you watcha video in the frontend the browser does not load the whole video atonce it loads it in chunks and then plays it
-In order to understand that we can study streams in nodejs as a concept
-
-Stream is an abstract interface for working with streaming data in Node.js.
-The node:stream module provides a base API that makes it easy to build objects that implement the stream interface.
-*/
-
-
-// TIMESTAMP: 00:53:30
