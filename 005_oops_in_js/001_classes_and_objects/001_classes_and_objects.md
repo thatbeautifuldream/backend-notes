@@ -66,7 +66,7 @@ datastructures
 └── utils.js
 ```
 
-> The individual folder can have ain dex.js file that has the named exports for the files in the folder
+> The individual folder can have an index.js file that has the named exports for the files in the folder
 
 - You can structure and publish the package as you like on npm.js website, following the tutorial at [https://docs.npmjs.com/creating-node-js-modules](https://docs.npmjs.com/creating-node-js-modules) and the npm package at [https://docs.npmjs.com/creating-and-publishing-scoped-public-packages](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages).
 
@@ -86,5 +86,3 @@ const { DataStructures } = dsasnippets;
 // Use the Algorithms module
 const { Algorithms } = dsasnippets;
 ```
-
-
