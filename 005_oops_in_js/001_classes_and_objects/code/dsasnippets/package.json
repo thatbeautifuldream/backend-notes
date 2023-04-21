@@ -1,0 +1,14 @@
+{
+  "name": "dsasnippets",
+  "version": "1.0.0",
+  "description": "DSA Snippets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dsa"
+  ],
+  "author": "Milind Mishra",
+  "license": "ISC"
+}
