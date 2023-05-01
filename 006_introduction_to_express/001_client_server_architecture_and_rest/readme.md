@@ -1,7 +1,5 @@
 # Client Server Architechtiure and REST
 
-- Notes by [Milind](https://milind.bio.link/)
-
 - Github Repo: [Backend Notes](https://github.com/thatbeautifuldream/backend-notes)
 
 ## Client Server Architecture
