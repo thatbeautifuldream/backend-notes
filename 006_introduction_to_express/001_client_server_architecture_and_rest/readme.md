@@ -16,7 +16,6 @@
 - `Server` - any system that provides a service to a client is considered as a Server. Here a system which is providing a service to a client is a server. So a database is a server, a python program is a server, a process is a server, a browser is a server, a mobile phone is a server. So any system which is providing a service to a client is a server.
 
 ```mermaid
-%% Client Server Architecture
 graph LR
     Client --> Server
     Server --> Database
@@ -24,3 +23,4 @@ graph LR
 
 - `R.E.S.T.` is a architectural style for designing networked applications. More commonly it is used to describe the way web services communicate over HTTP.
 - `R.E.S.T.` stands for `Representational State Transfer`, which does not self explain that much, but it is a architectural style for designing networked applications.
+- Changes
