@@ -15,31 +15,15 @@
 - Any end system that can recieve request process it and spits out a response is a server. So a database is a server, a python program is a server, a process is a server, a browser can be a server, a mobile phone can be a server. So any end system which is providing a service to a client is a server.
 - `Server` - any system that provides a service to a client is considered as a Server. Here a system which is providing a service to a client is a server. So a database is a server, a python program is a server, a process is a server, a browser is a server, a mobile phone is a server. So any system which is providing a service to a client is a server.
 
-```mermaid
-graph LR
-A[Client] -->|request| B[Server]
-B -->|response| A
-```
+![diagram](./readme-1.svg)
 
 - Simmilarly with `databases` just installing database application on system wont do the job, you need to boot up the database server inorder to provide a service to the program requesting for data.
 
-```mermaid
-graph LR
-A[Client] -->|request| B[Server]
-B -->|request| C[Database]
-C -->|response| B
-B -->|response| A
-```
+![diagram](./readme-2.svg)
 
 - For example lets take MongoDB, we have the application MongoDB Compass Application (just a GUI for you to interact with the db) which we can boot up and connect to the respective database server and then we can perform CRUD operations on the database. So the MongoDB Compass Application is a client, the MongoDB database server is a server and the MongoDB database is a database.
 
-```mermaid
-graph LR
-A[MongoDB Compass Application] -->|request| B[MongoDB Database Server]
-B -->|request| C[MongoDB Database]
-C -->|response| B
-B -->|response| A
-```
+![diagram](./readme-3.svg)
 
 - Generally the mongodb server uri looks like `mongodb://localhost:27017` , here mongodb is the protocol, localhost is the loopback host (127.0.0.1), 27017 is the port.
 - Now you may create a python program which can connect to the mongodb server and perform CRUD operations on the database. This illustrates a point that client can be anything irrespective of them having a GUI or not. Here the python program is a client, the mongodb server is a server and the mongodb database is a database.
