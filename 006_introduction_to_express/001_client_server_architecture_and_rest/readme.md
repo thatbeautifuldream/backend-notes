@@ -16,9 +16,10 @@
 - `Server` - any system that provides a service to a client is considered as a Server. Here a system which is providing a service to a client is a server. So a database is a server, a python program is a server, a process is a server, a browser is a server, a mobile phone is a server. So any system which is providing a service to a client is a server.
 
 ```mermaid
-graph LR
-    Client --> Server
-    Server --> Database
+graph TD
+A[Client] -->|tcp_123| B(Load Balancer)
+B -->|tcp_456| C[Server1] 
+B -->|tcp_456| D[Server2]
 ```
 
 - `R.E.S.T.` is a architectural style for designing networked applications. More commonly it is used to describe the way web services communicate over HTTP.
